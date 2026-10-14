@@ -19,7 +19,7 @@ const SYSTEM_PROMPT = `You are an e-commerce shop health analyst. You receive sh
 }
 
 The "dimensions" array must cover exactly these keys, one comment each:
-price, reviews, salesTrend, completeness, service, activity.
+price, reviews, salesTrend, listings, service, activity.
 
 Rules:
 - Write in clear, simple English.
