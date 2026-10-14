@@ -1,0 +1,172 @@
+{
+  "Willow & Oak Home": {
+    "profile": "healthy_established",
+    "expectedOverallRange": [
+      89,
+      99
+    ],
+    "expectedVerdict": "healthy",
+    "referenceDimensions": {
+      "price": 100,
+      "reviews": 100,
+      "salesTrend": 73,
+      "listings": 95,
+      "service": 100,
+      "activity": 100
+    },
+    "referenceOverall": 94
+  },
+  "Sunset Gadgets Hub": {
+    "profile": "dying_declining",
+    "expectedOverallRange": [
+      39,
+      49
+    ],
+    "expectedVerdict": "critical",
+    "referenceDimensions": {
+      "price": 58,
+      "reviews": 45,
+      "salesTrend": 14,
+      "listings": 40,
+      "service": 30,
+      "activity": 100
+    },
+    "referenceOverall": 44
+  },
+  "Nova Pet Treats": {
+    "profile": "brand_new",
+    "expectedOverallRange": [
+      64,
+      74
+    ],
+    "expectedVerdict": "watch",
+    "referenceDimensions": {
+      "price": 100,
+      "reviews": 54,
+      "salesTrend": 60,
+      "listings": 76,
+      "service": 100,
+      "activity": 100
+    },
+    "referenceOverall": 69
+  },
+  "Heritage Leatherworks": {
+    "profile": "overpriced_but_loved",
+    "expectedOverallRange": [
+      68,
+      78
+    ],
+    "expectedVerdict": "healthy",
+    "referenceDimensions": {
+      "price": 38,
+      "reviews": 90,
+      "salesTrend": 54,
+      "listings": 92,
+      "service": 89,
+      "activity": 100
+    },
+    "referenceOverall": 73
+  },
+  "BargainBin Basics": {
+    "profile": "race_to_the_bottom",
+    "expectedOverallRange": [
+      68,
+      78
+    ],
+    "expectedVerdict": "healthy",
+    "referenceDimensions": {
+      "price": 53,
+      "reviews": 73,
+      "salesTrend": 98,
+      "listings": 51,
+      "service": 64,
+      "activity": 100
+    },
+    "referenceOverall": 73
+  },
+  "Pixel Print Studio": {
+    "profile": "good_product_poor_service",
+    "expectedOverallRange": [
+      62,
+      72
+    ],
+    "expectedVerdict": "watch",
+    "referenceDimensions": {
+      "price": 100,
+      "reviews": 65,
+      "salesTrend": 55,
+      "listings": 92,
+      "service": 18,
+      "activity": 100
+    },
+    "referenceOverall": 67
+  },
+  "Old Town Vintage": {
+    "profile": "dormant_abandoned",
+    "expectedOverallRange": [
+      35,
+      45
+    ],
+    "expectedVerdict": "critical",
+    "referenceDimensions": {
+      "price": 95,
+      "reviews": 84,
+      "salesTrend": 0,
+      "listings": 61,
+      "service": 72,
+      "activity": 0
+    },
+    "referenceOverall": 40
+  },
+  "Fresh Brew Collective": {
+    "profile": "fast_growing_incomplete_listings",
+    "expectedOverallRange": [
+      86,
+      96
+    ],
+    "expectedVerdict": "healthy",
+    "referenceDimensions": {
+      "price": 100,
+      "reviews": 90,
+      "salesTrend": 100,
+      "listings": 34,
+      "service": 100,
+      "activity": 100
+    },
+    "referenceOverall": 91
+  },
+  "Ghost Listing Co": {
+    "profile": "empty_zero_data_edge_case",
+    "expectedOverallRange": [
+      25,
+      35
+    ],
+    "expectedVerdict": "critical",
+    "referenceDimensions": {
+      "price": 50,
+      "reviews": 50,
+      "salesTrend": 0,
+      "listings": 0,
+      "service": 50,
+      "activity": 0
+    },
+    "referenceOverall": 30
+  },
+  "Frostline Winter Wear": {
+    "profile": "seasonal_peak",
+    "expectedOverallRange": [
+      89,
+      99
+    ],
+    "expectedVerdict": "healthy",
+    "referenceDimensions": {
+      "price": 100,
+      "reviews": 92,
+      "salesTrend": 100,
+      "listings": 93,
+      "service": 81,
+      "activity": 100
+    },
+    "referenceOverall": 94
+  }
+}
