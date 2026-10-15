@@ -1,3 +1,5 @@
+import type { ShopData, HealthReport } from "./types";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Sends receipt files to the backend.
@@ -13,5 +15,17 @@ export async function uploadReceipts(files: File[]) {
 
   const res = await fetch(`${API_URL}/api/receipts`, { method: "POST", body });
   if (!res.ok) throw new Error(`Upload failed (${res.status})`);
+  return res.json();
+}
+
+
+
+export async function getHealthReport(shop: ShopData): Promise<HealthReport> {
+  const res = await fetch(`${API_URL ?? ""}/api/report`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(shop),
+  });
+  if (!res.ok) throw new Error(`Report failed (${res.status})`);
   return res.json();
 }
