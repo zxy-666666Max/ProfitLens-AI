@@ -1,0 +1,56 @@
+# ProfitLens AI | Hackathon Demo Video Script
+**Target duration: 2 minutes**
+
+### Scene 1: The Problem (0:00–0:20)
+**Visual:** Show receipts, invoices, and a small-business dashboard with scattered records.
+
+**Narrator 1:**
+
+"Small shop owners make important decisions every day, but their business information is often scattered across receipts, invoices, and sales records. Understanding profits, identifying slow-selling products, and knowing when to restock can become time-consuming and confusing. We built ProfitLens AI to make these decisions easier."
+
+### Scene 2: Introducing ProfitLens AI (0:20–0:35)
+**Visual:** Show the ProfitLens AI logo, login page, and dashboard.
+
+**Narrator 1:**
+
+"ProfitLens AI is an AI-powered business intelligence assistant designed for small shop owners. It transforms everyday business records into clear visual insights and actionable recommendations, without requiring users to be data analysts."
+
+### Scene 3: Upload and Analyze (0:35–0:55)
+**Visual:** Upload a sample receipt or invoice, show the processing indicator, then display extracted information.
+
+**Narrator 2:**
+
+"Users can upload supported receipts and invoices. Our AI-powered document processing pipeline extracts relevant information and organizes it for analysis. This helps turn unstructured documents into useful business data."
+
+### Scene 4: Business Insights (0:55–1:15)
+**Visual:** Navigate the dashboard, show sales and expense charts, profit metrics, and product insights.
+
+**Narrator 2:**
+
+"Once the information is processed, users can explore sales, expenses, profit trends, and product performance in one place. Where sufficient data is available, ProfitLens AI can also highlight potential inventory issues and help shop owners make more informed decisions."
+
+### Scene 5: AI Chat Assistant (1:15–1:35)
+**Visual:** Type a question such as, 'Which day had the lowest profit?' Show the response and the supporting chart or figures.
+
+**Narrator 1:**
+
+"Users can also ask questions in natural language. Instead of manually searching through records, they can ask about their business performance and receive answers grounded in the available data. Our goal is to make business analytics accessible through a simple conversation."
+
+### Scene 6: AMD Integration (1:35–1:50)
+**Visual:** Show the actual system architecture, AMD GPU environment, and genuine model inference logs.
+
+**Narrator 2:**
+
+"ProfitLens AI integrates AI inference with AMD GPU hardware using the supported ROCm environment. Our pipeline combines document understanding and language-model inference with structured business analytics to turn uploaded records into useful insights."
+
+### Scene 7: Closing (1:50–2:00)
+**Visual:** Show the complete dashboard, logo, and tagline.
+
+**Narrator 1:**
+
+"With ProfitLens AI, small businesses can move from scattered records to clearer decisions. Less guesswork. More insight. Thank you."
+
+**On-screen closing text:**
+
+PROFITLENS AI  
+Upload. Understand. Improve.
