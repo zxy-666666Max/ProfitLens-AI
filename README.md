@@ -78,6 +78,6 @@ Result: **10/10 test shops match** the expected verdicts (`data/test-shops.json`
 
 ## Project docs
 
-- [doc/demo-video-script.md](doc/demo-video-script.md) — 2:30–3:00 demo video script (OBS, scene-by-scene)
-- [doc/slides-outline.md](doc/slides-outline.md) — 8-slide deck outline
+- [doc/demo-video-script.md](video-script/video.md) — 2:30–3:00 demo video script (OBS, scene-by-scene)
+- [doc/slides-outline.md](slides/ProfitLens-AI.pdf) — 8-slide deck outline
 - [doc/scoring-rubric.md](doc/scoring-rubric.md) — full rubric formulas
