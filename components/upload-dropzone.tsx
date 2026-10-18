@@ -2,6 +2,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { uploadReceipts, USING_MOCK_API } from "@/lib/api";
 import { useSession } from "@/lib/auth";
 import { isDemoSession, saveAccountShop, sampleShop } from "@/lib/account-shops";
@@ -132,6 +133,12 @@ if (session && !isDemoSession(session)) {
         >
           {message}
         </p>
+      )}
+
+      {status === "done" && (
+        <Link href="/reports" className="text-sm font-medium text-emerald-600 hover:underline">
+          View your health report
+        </Link>
       )}
 
       <button
