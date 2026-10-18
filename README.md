@@ -4,6 +4,9 @@ Turn a small e-commerce shop's raw metrics into a **verdict and an action plan**
 
 > AMD Developer Hackathon Act III · Track 3 Commerce (+ Evolus additional track)
 
+**Live demo: [https://profit-lens-ai.vercel.app](https://profit-lens-ai.vercel.app)** —
+try the demo account: `demo@profitlens.ai` / `demo1234` (pre-loaded with the ten test shops).
+
 ## Architecture
 
 ```
@@ -78,6 +81,6 @@ Result: **10/10 test shops match** the expected verdicts (`data/test-shops.json`
 
 ## Project docs
 
-- [doc/demo-video-script.md](video-script/video.md) — 2:30–3:00 demo video script (OBS, scene-by-scene)
-- [doc/slides-outline.md](slides/ProfitLens-AI.pdf) — 8-slide deck outline
+- [doc/demo-video-script.md](doc/demo-video-script.md) — demo video script
+- [doc/slides-outline.md](doc/slides-outline.md) — slide deck outline
 - [doc/scoring-rubric.md](doc/scoring-rubric.md) — full rubric formulas
