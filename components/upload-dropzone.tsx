@@ -1,17 +1,24 @@
+
 "use client";
 
 import { useRef, useState } from "react";
-import { uploadReceipts } from "@/lib/api";
+import { uploadReceipts, USING_MOCK_API } from "@/lib/api";
+import { useSession } from "@/lib/auth";
+import { isDemoSession, saveAccountShop, sampleShop } from "@/lib/account-shops";
+
+
 
 const ACCEPTED_TYPES = ["image/png", "image/jpeg", "application/pdf"];
 const MAX_MB = 10;
 
 export default function UploadDropzone() {
+  const session = useSession();
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<File[]>([]);
   const [dragging, setDragging] = useState(false);
   const [status, setStatus] = useState<"idle" | "uploading" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
+  
 
   function addFiles(list: FileList | null) {
     if (!list) return;
@@ -37,7 +44,11 @@ export default function UploadDropzone() {
     setStatus("uploading");
     setMessage("");
     try {
-      await uploadReceipts(files);
+      const res = await uploadReceipts(files);
+if (session && !isDemoSession(session)) {
+  const data = res.shop ?? (USING_MOCK_API ? sampleShop(session.shopName) : null);
+  if (data) saveAccountShop(session.email, data);
+}
       setStatus("done");
       setMessage(`${files.length} receipt${files.length > 1 ? "s" : ""} uploaded.`);
       setFiles([]);

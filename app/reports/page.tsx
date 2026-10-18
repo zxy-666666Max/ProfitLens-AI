@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import ShopSelect from "@/components/shop-select";
 import { getHealthReport } from "@/lib/api";
-import { shops, expected } from "@/lib/shops";
+import { expected } from "@/lib/shops";
 import type { HealthReport } from "@/lib/types";
+import { useAccountShops } from "@/lib/account-shops";
+import EmptyState from "@/components/empty-state";
 
 const verdictStyles = {
   healthy: "bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300",
@@ -19,7 +21,8 @@ function barColor(score: number) {
 }
 
 export default function ReportsPage() {
-const [shopName, setShopName] = useState(shops[0].name);
+const { loading: shopsLoading, shops } = useAccountShops();
+const [shopName, setShopName] = useState("");
 const [run, setRun] = useState(0);
 const [result, setResult] = useState<{
   key: string;
@@ -28,16 +31,16 @@ const [result, setResult] = useState<{
 } | null>(null);
 
 const shop = shops.find((s) => s.name === shopName) ?? shops[0];
-const ref = expected[shop.name];
+const ref = shop ? expected[shop.name] : undefined;
 
-// A result only counts if it belongs to the current shop + run
-const key = `${shop.name}:${run}`;
+const key = shop ? `${shop.name}:${run}` : "";
 const current = result?.key === key ? result : null;
-const loading = current === null;
+const loading = shopsLoading || (shop ? current === null : false);
 const report = current?.report ?? null;
 const error = current?.error ?? "";
 
 useEffect(() => {
+  if (!shop) return;
   let cancelled = false;
   getHealthReport(shop)
     .then((r) => {
@@ -51,6 +54,8 @@ useEffect(() => {
     cancelled = true;
   };
 }, [shop, key]);
+
+if (!shopsLoading && !shop) return <EmptyState />;
 
   const inRange =
     report && ref
@@ -67,7 +72,9 @@ useEffect(() => {
           </p>
         </div>
         <div className="flex gap-3">
-          <ShopSelect value={shopName} onChange={setShopName} />
+          {shops.length > 1 && (
+  <ShopSelect shops={shops} value={shop?.name ?? ""} onChange={setShopName} />
+)}
           <button
             onClick={() => setRun((n) => n + 1)}
             disabled={loading}

@@ -5,7 +5,9 @@ import Link from "next/link";
 import MetricCard from "@/components/metric-card";
 import SalesChart from "@/components/sales-chart";
 import ShopSelect from "@/components/shop-select";
-import { shops, expected, deriveMetrics, deriveAlerts, DIMENSION_LABELS } from "@/lib/shops";
+import { expected, deriveMetrics, deriveAlerts, DIMENSION_LABELS } from "@/lib/shops";
+import { useAccountShops } from "@/lib/account-shops";
+import EmptyState from "@/components/empty-state";
 
 const severityStyles = {
   high: "bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300",
@@ -20,15 +22,20 @@ function scoreColor(score: number) {
 }
 
 export default function DashboardPage() {
-  const [shopName, setShopName] = useState(shops[0].name);
-  const shop = shops.find((s) => s.name === shopName) ?? shops[0];
-  const metrics = deriveMetrics(shop);
-  const alerts = deriveAlerts(shop);
-  const ref = expected[shop.name];
-  const salesData = [
-    { label: "Previous 30d", sales: shop.salesPrev30d },
-    { label: "Last 30d", sales: shop.sales30d },
-  ];
+const { loading, shops } = useAccountShops();
+const [shopName, setShopName] = useState("");
+const shop = shops.find((s) => s.name === shopName) ?? shops[0];
+
+if (loading) return null;
+if (!shop) return <EmptyState />;
+
+const metrics = deriveMetrics(shop);
+const alerts = deriveAlerts(shop);
+const ref = expected[shop.name];
+const salesData = [
+  { label: "Previous 30d", sales: shop.salesPrev30d },
+  { label: "Last 30d", sales: shop.sales30d },
+];
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
@@ -40,7 +47,9 @@ export default function DashboardPage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <ShopSelect value={shopName} onChange={setShopName} />
+          {shops.length > 1 && (
+  <ShopSelect shops={shops} value={shop.name} onChange={setShopName} />
+)}
           <Link
             href="/upload"
             className="rounded-lg bg-zinc-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-zinc-700 dark:bg-white dark:text-black dark:hover:bg-zinc-200"

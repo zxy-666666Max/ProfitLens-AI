@@ -1,10 +1,10 @@
 import type { ShopData, HealthReport } from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+export const USING_MOCK_API = !API_URL;
 // Sends receipt files to the backend.
 // With no NEXT_PUBLIC_API_URL set, it fakes a 1s upload so the UI works without a backend.
-export async function uploadReceipts(files: File[]) {
+export async function uploadReceipts(files: File[]): Promise<{ uploaded: number; shop?: ShopData }> {
   if (!API_URL) {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     return { uploaded: files.length };
@@ -27,5 +27,20 @@ export async function getHealthReport(shop: ShopData): Promise<HealthReport> {
     body: JSON.stringify(shop),
   });
   if (!res.ok) throw new Error(`Report failed (${res.status})`);
+  return res.json();
+}
+
+export type ChatMessage = { role: "user" | "assistant"; content: string };
+
+export async function sendChat(
+  shop: ShopData,
+  messages: ChatMessage[]
+): Promise<{ reply: string; engine: "llm" | "mock" }> {
+  const res = await fetch(`${API_URL ?? ""}/api/chat`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ shop, messages }),
+  });
+  if (!res.ok) throw new Error(`Chat failed (${res.status})`);
   return res.json();
 }

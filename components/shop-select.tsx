@@ -1,11 +1,13 @@
 "use client";
 
-import { shops } from "@/lib/shops";
+import type { ShopData } from "@/lib/types";
 
 export default function ShopSelect({
+  shops,
   value,
   onChange,
 }: {
+  shops: ShopData[];
   value: string;
   onChange: (name: string) => void;
 }) {
