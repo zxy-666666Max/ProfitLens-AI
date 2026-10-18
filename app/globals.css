@@ -24,3 +24,47 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+.scrollbar-style {
+  scrollbar-width: thin;
+  scrollbar-color: #d4d4d8 transparent;
+}
+
+@media (prefers-color-scheme: dark) {
+  .scrollbar-style {
+    scrollbar-color: #3f3f46 transparent;
+  }
+}
+
+/* Older Safari: only used when scrollbar-color isn't supported */
+@supports not (scrollbar-color: auto) {
+  .scrollbar-style::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .scrollbar-style::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-style::-webkit-scrollbar-thumb {
+    background: #d4d4d8;
+    border-radius: 9999px;
+  }
+
+  .scrollbar-style::-webkit-scrollbar-thumb:hover {
+    background: #a1a1aa;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .scrollbar-style::-webkit-scrollbar-thumb {
+      background: #3f3f46;
+    }
+
+    .scrollbar-style::-webkit-scrollbar-thumb:hover {
+      background: #52525b;
+    }
+  }
+}
+

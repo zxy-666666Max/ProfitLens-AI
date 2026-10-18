@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { DEMO_USER, login, signup, useSession } from "@/lib/auth";
+import Image from "next/image";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,7 +37,10 @@ export default function LoginPage() {
   return (
     <div className="mx-auto flex w-full max-w-sm flex-col gap-6 py-10">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">ProfitLens AI</h1>
+       <div className="bg-white rounded-lg px-0 py-0 mb-5">
+              <Image src="/logo.png" alt="ProfitLens AI" width={250} height={250} className="w-full" />
+       
+       </div>
         <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
           {mode === "login" ? "Log in to your account." : "Create an account for your shop."}
         </p>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import Image from "next/image";
 export const navLinks = [
   { href: "/", label: "Dashboard" },
   { href: "/upload", label: "Upload" },
@@ -16,7 +16,12 @@ export default function Sidebar() {
 
   return (
     <aside className="hidden w-56 shrink-0 flex-col border-r border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-950 md:flex">
-      <p className="mb-6 px-3 text-lg font-semibold">ProfitLens AI</p>
+
+<div className="bg-white rounded-lg px-0 py-0 mb-5">
+       <Image src="/logo.png" alt="ProfitLens AI" width={250} height={250} className="w-full" />
+
+</div>
+
       <nav className="flex flex-col gap-1">
         {navLinks.map((link) => {
           const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);

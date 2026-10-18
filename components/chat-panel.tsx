@@ -49,7 +49,7 @@ export default function ChatPanel({ shop }: { shop: ShopData }) {
   }
 
   return (
-    <div className="flex h-[calc(100vh-15rem)] min-h-[420px] flex-col rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
+    <div className="flex h-[calc(100vh-15rem)] min-h-[420px] scrollbar-style flex-col rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
       <div className="flex-1 space-y-4 overflow-y-auto p-4">
         {messages.length === 0 && (
           <div className="flex h-full flex-col items-center justify-center gap-4 text-center">

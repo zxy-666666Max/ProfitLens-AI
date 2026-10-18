@@ -17,6 +17,7 @@ export default function Header() {
     <header className="border-b border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-950">
       <div className="flex h-14 items-center justify-between px-4 sm:px-6 lg:px-8">
         <h2 className="font-semibold">{current?.label ?? "ProfitLens AI"}</h2>
+       
         <div className="flex items-center gap-4">
           <span className="text-sm text-zinc-500 dark:text-zinc-400">{session?.shopName}</span>
           <button
