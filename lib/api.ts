@@ -1,29 +1,21 @@
 import type { ShopData, HealthReport } from "./types";
+import type { ExtractedReceipt } from "./receipts";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-export const USING_MOCK_API = !API_URL;
 // Sends receipt files to the backend.
 // With no NEXT_PUBLIC_API_URL set, it fakes a 1s upload so the UI works without a backend.
-export async function uploadReceipts(files: File[]): Promise<{ uploaded: number; shop?: ShopData }> {
-  if (!API_URL) {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return { uploaded: files.length };
-  }
-
+export async function uploadReceipts(
+  files: File[]
+): Promise<{ receipts: ExtractedReceipt[]; skipped: string[] }> {
   const body = new FormData();
   files.forEach((file) => body.append("receipts", file));
 
-  try {
-    const res = await fetch(`${API_URL}/api/receipts`, { method: "POST", body });
-    if (res.ok) return res.json();
-  } catch {
-    // fall through to the graceful fallback below
+  const res = await fetch(`${API_URL ?? ""}/api/receipts`, { method: "POST", body });
+  if (!res.ok) {
+    const err = await res.json().catch(() => null);
+    throw new Error(err?.error ?? `Upload failed (${res.status})`);
   }
-
-  // Receipt parsing is optional — if the upload endpoint is unavailable,
-  // still succeed so the report and inventory pages keep working.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  return { uploaded: files.length };
+  return res.json();
 }
 
 

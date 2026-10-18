@@ -1,14 +1,9 @@
-// LLM scoring engine - calls our self-hosted vLLM endpoint (OpenAI-compatible).
-// Deployed on AMD ROCm cloud GPU (vllm/vllm-openai-rocm docker image + Qwen3).
-// If vLLM is not reachable or the reply can't be parsed, callers fall back to mock.
 
 import type { ShopData, DimensionScore, HealthReport } from "./types";
 import { buildMockReport } from "./scorer";
+import { chatCompletion } from "./llm-client";
 
-interface ChatMessage {
-  role: "system" | "user";
-  content: string;
-}
+
 
 const SYSTEM_PROMPT = `You are an e-commerce shop health analyst. You receive shop metrics as JSON and must reply with ONLY a JSON object, no markdown fences, no extra text, in this exact shape:
 
@@ -42,37 +37,14 @@ interface LlmReply {
 }
 
 export async function buildLlmReport(shop: ShopData): Promise<HealthReport | null> {
-  const baseUrl = process.env.VLLM_BASE_URL;
-  if (!baseUrl) return null;
-
-  const model = process.env.VLLM_MODEL ?? "Qwen/Qwen3-4B";
-  const messages: ChatMessage[] = [
-    { role: "system", content: SYSTEM_PROMPT },
-    { role: "user", content: JSON.stringify(shop) },
-  ];
-
-  let content: string;
-  try {
-    const res = await fetch(`${baseUrl.replace(/\/+$/, "")}/v1/chat/completions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model,
-        messages,
-        temperature: 0.3,
-        max_tokens: 700,
-      }),
-      signal: AbortSignal.timeout(60_000),
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as {
-      choices?: Array<{ message?: { content?: string } }>;
-    };
-    content = data.choices?.[0]?.message?.content ?? "";
-    if (!content) return null;
-  } catch {
-    return null; // vLLM down or timed out — caller falls back to mock
-  }
+  const content = await chatCompletion(
+    [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: JSON.stringify(shop) },
+    ],
+    { maxTokens: 700 }
+  );
+  if (!content) return null;
 
   let reply: LlmReply;
   try {
