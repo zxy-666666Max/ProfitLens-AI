@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import type { ShopData } from "@/lib/types";
 import { buildMockReport } from "@/lib/scorer";
-import { chatCompletion } from "@/lib/llm-client";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -22,39 +21,32 @@ Rules:
 - Use clear, simple English, under 120 words, with concrete next steps when useful.`;
 }
 
-function askLlm(shop: ShopData, messages: ChatMessage[]) {
-  return chatCompletion([{ role: "system", content: systemPrompt(shop) }, ...messages], {
-    temperature: 0.4,
-    maxTokens: 500,
-  });
+async function askLlm(shop: ShopData, messages: ChatMessage[]): Promise<string | null> {
+  const baseUrl = process.env.VLLM_BASE_URL;
+  if (!baseUrl) return null;
+
+  try {
+    const res = await fetch(`${baseUrl.replace(/\/+$/, "")}/v1/chat/completions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: process.env.VLLM_MODEL ?? "Qwen/Qwen3-4B",
+        messages: [{ role: "system", content: systemPrompt(shop) }, ...messages],
+        temperature: 0.4,
+        max_tokens: 500,
+        chat_template_kwargs: { enable_thinking: false },
+      }),
+      signal: AbortSignal.timeout(60_000),
+    });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
+    const raw = data.choices?.[0]?.message?.content ?? "";
+    const text = raw.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
+    return text || null;
+  } catch {
+    return null;
+  }
 }
-
-// async function askLlm(shop: ShopData, messages: ChatMessage[]): Promise<string | null> {
-//   const baseUrl = process.env.VLLM_BASE_URL;
-//   if (!baseUrl) return null;
-
-//   try {
-//     const res = await fetch(`${baseUrl.replace(/\/+$/, "")}/v1/chat/completions`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         model: process.env.VLLM_MODEL ?? "Qwen/Qwen3-4B",
-//         messages: [{ role: "system", content: systemPrompt(shop) }, ...messages],
-//         temperature: 0.4,
-//         max_tokens: 500,
-//         chat_template_kwargs: { enable_thinking: false },
-//       }),
-//       signal: AbortSignal.timeout(60_000),
-//     });
-//     if (!res.ok) return null;
-//     const data = (await res.json()) as { choices?: Array<{ message?: { content?: string } }> };
-//     const raw = data.choices?.[0]?.message?.content ?? "";
-//     const text = raw.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
-//     return text || null;
-//   } catch {
-//     return null;
-//   }
-// }
 
 // Used when vLLM is not configured or not reachable
 function fallbackReply(shop: ShopData, question: string): string {

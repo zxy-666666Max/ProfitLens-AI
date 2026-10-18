@@ -3,10 +3,9 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { uploadReceipts } from "@/lib/api";
+import { uploadReceipts, USING_MOCK_API } from "@/lib/api";
 import { useSession } from "@/lib/auth";
-import { isDemoSession } from "@/lib/account-shops";
-import { addReceipts } from "@/lib/receipts";
+import { isDemoSession, saveAccountShop, sampleShop } from "@/lib/account-shops";
 
 
 
@@ -42,25 +41,23 @@ export default function UploadDropzone() {
     );
   }
 
-async function handleUpload() {
-  setStatus("uploading");
-  setMessage("");
-  try {
-    const res = await uploadReceipts(files);
-    if (session && !isDemoSession(session)) {
-      addReceipts(session.email, session.shopName, res.receipts);
-    }
-    setStatus(res.receipts.length > 0 ? "done" : "error");
-    setMessage(
-      `${res.receipts.length} of ${files.length} receipt${files.length > 1 ? "s" : ""} read.` +
-        (res.skipped.length ? ` Skipped: ${res.skipped.join("; ")}` : "")
-    );
-    setFiles([]);
-  } catch (err) {
-    setStatus("error");
-    setMessage(err instanceof Error ? err.message : "Upload failed. Please try again.");
-  }
+  async function handleUpload() {
+    setStatus("uploading");
+    setMessage("");
+    try {
+      const res = await uploadReceipts(files);
+if (session && !isDemoSession(session)) {
+  const data = res.shop ?? (USING_MOCK_API ? sampleShop(session.shopName) : null);
+  if (data) saveAccountShop(session.email, data);
 }
+      setStatus("done");
+      setMessage(`${files.length} receipt${files.length > 1 ? "s" : ""} uploaded.`);
+      setFiles([]);
+    } catch {
+      setStatus("error");
+      setMessage("Upload failed. Please try again.");
+    }
+  }
 
   return (
     <div className="flex flex-col gap-4">
